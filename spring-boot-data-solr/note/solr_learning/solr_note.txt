@@ -1,0 +1,41 @@
+mysql --default-character-set=utf8 -uroot -p
+
+mysql> source C:/Users/eric/Desktop/solr_learning/item.sql
+
+nginx setup
+- start nginx
+start nginx.exe
+
+
+- stop nginx
+nginx.exe -s stop
+
+- reload nginx after changing configurate
+nginx.exe -s reload
+
+after nginx starts up, 2 nginx process will be created by the machine.
+
+create a new proxy server
+
+	server {
+        listen       80;
+        server_name  solr.master.com;
+		
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		
+        location / {
+            proxy_pass http://127.0.0.1:8983;
+			proxy_connect_timeout 600;
+			proxy_read_timeout 600;
+        }
+    }
+	
+Start solr
+cd C:\dev\tool\solr\solr-4.10.4\example
+java -jar start.jar
+
+change the xml file in contexts fold, to change the context path from /solr to /
+
+https://programmingmitra.blogspot.ca/2016/01/how-to-write-custom-implementation-for.html
